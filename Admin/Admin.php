@@ -52,7 +52,7 @@ abstract class Admin implements AdminInterface, DomainObjectInterface
     const CONTEXT_MENU       = 'menu';
     const CONTEXT_DASHBOARD  = 'dashboard';
 
-    const CLASS_REGEX        = '@([A-Za-z0-9]*)\\\(Bundle\\\)?([A-Za-z0-9]+)Bundle\\\(Entity|Document|Model|PHPCR|Phpcr|Doctrine\\\Orm|Doctrine\\\Phpcr|Doctrine\\\MongoDB|Doctrine\\\CouchDB)\\\(.*)@';
+    const CLASS_REGEX        = '@([A-Za-z0-9]*)\\\(Bundle\\\)?([A-Za-z0-9]+)(Bundle)?\\\(Entity|Document|Model|PHPCR|Phpcr|Doctrine\\\Orm|Doctrine\\\Phpcr|Doctrine\\\MongoDB|Doctrine\\\CouchDB)\\\(.*)@';
 
     /**
      * The class name managed by the admin class
@@ -871,14 +871,14 @@ abstract class Admin implements AdminInterface, DomainObjectInterface
             if ($this->isChild()) { // the admin class is a child, prefix it with the parent route name
                 $this->baseRoutePattern = sprintf('%s/{id}/%s',
                     $this->getParent()->getBaseRoutePattern(),
-                    $this->urlize($matches[5], '-')
+                    $this->urlize($matches[6], '-')
                 );
             } else {
 
                 $this->baseRoutePattern = sprintf('/%s/%s/%s',
                     $this->urlize($matches[1], '-'),
                     $this->urlize($matches[3], '-'),
-                    $this->urlize($matches[5], '-')
+                    $this->urlize($matches[6], '-')
                 );
             }
         }
@@ -905,14 +905,14 @@ abstract class Admin implements AdminInterface, DomainObjectInterface
             if ($this->isChild()) { // the admin class is a child, prefix it with the parent route name
                 $this->baseRouteName = sprintf('%s_%s',
                     $this->getParent()->getBaseRouteName(),
-                    $this->urlize($matches[5])
+                    $this->urlize($matches[6])
                 );
             } else {
 
                 $this->baseRouteName = sprintf('admin_%s_%s_%s',
                     $this->urlize($matches[1]),
                     $this->urlize($matches[3]),
-                    $this->urlize($matches[5])
+                    $this->urlize($matches[6])
                 );
             }
         }
